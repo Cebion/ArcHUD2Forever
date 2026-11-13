@@ -1,0 +1,43 @@
+## Interface: 16001
+## Title: ArcHUD |cff7fff7f -Forever-|r
+## Notes: Combat HUD based on NurfedHUD
+## Author: Uruloke/Nenie
+## SavedVariables: ArcHUDDB
+## Version: @project-version@
+## X-Date: 2006-08-24 (Forever port 2026-11-04)
+## X-Category: Interface Enhancements
+## X-Curse-Project-ID: CHANGEME
+## X-Original-Interface: 11200
+## IconTexture: Interface\AddOns\ArcHUD2\Icons\ArcHUDIcon
+## AddonCompartmentFunc: ArcHUD_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: ArcHUD_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: ArcHUD_OnAddonCompartmentLeave
+
+# Framework (replaces the Ace2 libraries)
+Locale.lua
+Framework.lua
+
+# Core addon
+Locale_enUS.lua
+Locale_deDE.lua
+Locale_zhCN.lua
+Core.xml
+Core.lua
+Menu.lua
+MinimapIcon.lua
+Utils.lua
+RingTemplate.lua
+ModuleCore.lua
+
+# Rings
+Rings\Anchors.lua
+Rings\Health.lua
+Rings\Mana.lua
+Rings\TargetHealth.lua
+Rings\TargetMana.lua
+Rings\PetMana.lua
+Rings\PetHealth.lua
+Rings\Casting.lua
+Rings\MirrorTimer.lua
+Rings\ComboPoints.lua
+Rings\DruidMana.lua

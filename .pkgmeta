@@ -1,0 +1,11 @@
+package-as: ArcHUD2
+
+enable-nolib-creation: no
+
+ignore:
+  - README.md
+  - PORTING.md
+  - ring-prototypes.txt
+  - statrings.txt
+  - .luacheckrc
+  - .editorconfig

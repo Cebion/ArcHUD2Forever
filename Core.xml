@@ -1,0 +1,523 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\..\FrameXML\UI.xsd">
+
+	<!-- Aura Template (the 16 buff and 16 debuff buttons are created from it in Core.lua, same anchors as before) -->
+	<Button name="ArcHUDAuraTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentIcon" parentKey="Icon" setAllPoints="true"/>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture name="$parentBorder" parentKey="Border" file="Interface\Buttons\UI-Debuff-Overlays" hidden="true">
+					<Size>
+						<AbsDimension x="17" y="17"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.296875" right="0.5703125" top="0" bottom="0.515625"/>
+				</Texture>
+				<FontString name="$parentCount" parentKey="Count" inherits="NumberFontNormalSmall">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="-1" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self.Icon:SetTexture("Interface\\Icons\\INV_Misc_Ear_Human_02");
+			</OnLoad>
+			<OnEnter>
+				ArcHUD:SetAuraTooltip(self);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+	</Button>
+
+	<!-- Same look as ArcHUDAuraTemplate, for Blizzard's AuraContainer (used while target auras are
+	     restricted in combat; Blizzard fills icon, count and border, addon code never reads the auras).
+	     AuraContainer creates AuraButton frames, so this template is an AuraButton too. -->
+	<AuraButton name="ArcHUDContainerAuraTemplate" virtual="true">
+		<Size x="16" y="16"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Icon" setAllPoints="true"/>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="Border" file="Interface\Buttons\UI-Debuff-Overlays" hidden="true">
+					<Size x="17" y="17"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+					<TexCoords left="0.296875" right="0.5703125" top="0" bottom="0.515625"/>
+				</Texture>
+				<FontString parentKey="Count" inherits="NumberFontNormalSmall">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="-1" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</AuraButton>
+
+	<!-- Slider row used inside the /archud config menu (replaces Dewdrop's slider popout) -->
+	<Frame name="ArcHUDMenuSliderTemplate" virtual="true">
+		<Size x="240" y="46"/>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Label" inherits="GameFontNormalSmall" justifyH="LEFT">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-2"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="SliderControl" inherits="MinimalSliderWithSteppersTemplate">
+				<Size x="230" y="28"/>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" x="0" y="0"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+	</Frame>
+
+	<Frame name="ArcHUDFrame" parent="UIParent" hidden="false" frameStrata="LOW">
+		<Size>
+			<AbsDimension x="50" y="350"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="WorldFrame">
+				<Offset>
+					<AbsDimension x="0" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level = "BACKGROUND">
+				<FontString name="$parentCombo" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="CENTER">
+					<FontHeight>
+						<AbsValue val="30"/>
+					</FontHeight>
+					<Color r="1" g="1" b="0"/>
+					<Size>
+						<AbsDimension x="40" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<!-- Clickable nameplates are secure unit buttons (click to target / right-click menu).
+			     Core.lua reparents them to UIParent at load so ArcHUDFrame and ArcTargetHUD stay free to
+			     show, hide and move in combat. -->
+			<Button name="$parentPlayerNamePlate" inherits="SecureUnitButtonTemplate" toplevel="true">
+				<Size>
+					<AbsDimension x="50" y="14"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOM" relativeTo="$parentCombo" relativePoint="TOP">
+						<Offset>
+							<AbsDimension x="0" y="20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="$parentText" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="CENTER">
+							<FontHeight>
+								<AbsValue val="14"/>
+							</FontHeight>
+							<Color r="1" g="1" b="1"/>
+							<Size>
+								<AbsDimension x="150" y="15"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOP">
+									<Offset>
+										<AbsDimension x="0" y="0"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Button>
+			<Button name="$parentPetNamePlate" inherits="SecureUnitButtonTemplate" toplevel="true" hidden="true">
+				<Size>
+					<AbsDimension x="50" y="12"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOM" relativeTo="$parentCombo" relativePoint="TOP">
+						<Offset>
+							<AbsDimension x="0" y="5"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="$parentText" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="CENTER">
+							<FontHeight>
+								<AbsValue val="12"/>
+							</FontHeight>
+							<Color r="1" g="1" b="1"/>
+							<Size>
+								<AbsDimension x="150" y="13"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOP">
+									<Offset>
+										<AbsDimension x="0" y="0"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Button>
+			<Frame name="ArcTargetHUD">
+				<Size>
+					<AbsDimension x="300" y="100"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$parent" relativePoint="BOTTOM">
+						<Offset>
+							<AbsDimension x="0" y="-50"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="$parentName" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="CENTER">
+							<FontHeight>
+								<AbsValue val="15"/>
+							</FontHeight>
+							<Color r="1" g="1" b="1"/>
+							<Size>
+								<AbsDimension x="400" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOP">
+									<Offset>
+										<AbsDimension x="0" y="0"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentHPText" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="RIGHT">
+							<FontHeight>
+								<AbsValue val="13"/>
+							</FontHeight>
+							<Color r="1" g="1" b="1"/>
+							<Size>
+								<AbsDimension x="200" y="14"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT">
+									<Offset>
+										<AbsDimension x="-50" y="0"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentMPText" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="LEFT">
+							<FontHeight>
+								<AbsValue val="13"/>
+							</FontHeight>
+							<Color r="1" g="1" b="1"/>
+							<Size>
+								<AbsDimension x="200" y="14"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPRIGHT" relativeTo="$parentName" relativePoint="BOTTOMRIGHT">
+									<Offset>
+										<AbsDimension x="50" y="0"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentLevel" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="CENTER">
+							<FontHeight>
+								<AbsValue val="11"/>
+							</FontHeight>
+							<Color r="1" g="1" b="1"/>
+							<Size>
+								<AbsDimension x="100" y="13"/>
+							</Size>
+							<Anchors>
+								<Anchor point="BOTTOMLEFT" relativeTo="$parentHPText" relativePoint="BOTTOMRIGHT">
+									<Offset>
+										<AbsDimension x="0" y="1"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<Texture name="$parentLeaderIcon" file="Interface\GroupFrame\UI-Group-LeaderIcon" hidden="true">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPRIGHT" relativeTo="$parentLevel" relativePoint="BOTTOMRIGHT">
+									<Offset>
+										<AbsDimension x="-5" y="0"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Frame name="$parentPVP">
+						<Size>
+							<AbsDimension x="64" y="64"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentLevel" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="3" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="OVERLAY">
+								<Texture name="$parentIcon" hidden="true">
+									<Size>
+										<AbsDimension x="64" y="64"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPLEFT" />
+									</Anchors>
+								</Texture>
+							</Layer>
+						</Layers>
+					</Frame>
+					<Frame name="$parentRaidTarget">
+						<Size>
+							<AbsDimension x="26" y="26"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentLevel" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="35" y="-3"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="OVERLAY">
+								<Texture name="$parentIcon" file="Interface\TargetingFrame\UI-RaidTargetingIcons" hidden="true">
+									<Size>
+										<AbsDimension x="26" y="26"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPLEFT" />
+									</Anchors>
+								</Texture>
+							</Layer>
+						</Layers>
+					</Frame>
+					<Button name="$parentNamePlate" inherits="SecureUnitButtonTemplate" enableMouse="true" toplevel="true">
+						<Size>
+							<AbsDimension x="400" y="15"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentName">
+								<Offset>
+									<AbsDimension x="0" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<Frame name="$parentTarget">
+						<Size>
+							<AbsDimension x="100" y="30"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativeTo="$parentHPText" relativePoint="BOTTOMRIGHT">
+								<Offset>
+									<AbsDimension x="0" y="-40"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="ARTWORK">
+								<FontString name="$parentName" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="RIGHT">
+									<FontHeight>
+										<AbsValue val="13"/>
+									</FontHeight>
+									<Color r="1" g="1" b="1"/>
+									<Size>
+										<AbsDimension x="100" y="14"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPLEFT" />
+									</Anchors>
+								</FontString>
+								<FontString name="$parentHPText" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="RIGHT">
+									<FontHeight>
+										<AbsValue val="10"/>
+									</FontHeight>
+									<Color r="1" g="1" b="1"/>
+									<Size>
+										<AbsDimension x="50" y="11"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPRIGHT" relativeTo="$parentName" relativePoint="BOTTOMRIGHT">
+											<Offset>
+												<AbsDimension x="0" y="-5"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+								</FontString>
+								<FontString name="$parentMPText" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="LEFT">
+									<FontHeight>
+										<AbsValue val="10"/>
+									</FontHeight>
+									<Color r="1" g="1" b="1"/>
+									<Size>
+										<AbsDimension x="50" y="11"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT">
+											<Offset>
+												<AbsDimension x="0" y="-5"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+						<Frames>
+							<Button name="$parentNamePlate" inherits="SecureUnitButtonTemplate" enableMouse="true" toplevel="true">
+								<Size>
+									<AbsDimension x="100" y="15"/>
+								</Size>
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="$parentName">
+										<Offset>
+											<AbsDimension x="0" y="0"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+							</Button>
+						</Frames>
+					</Frame>
+					<Frame name="$parentTargetTarget">
+						<Size>
+							<AbsDimension x="100" y="30"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentMPText" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-40"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="ARTWORK">
+								<FontString name="$parentName" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="LEFT">
+									<FontHeight>
+										<AbsValue val="13"/>
+									</FontHeight>
+									<Color r="1" g="1" b="1"/>
+									<Size>
+										<AbsDimension x="100" y="14"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPLEFT" />
+									</Anchors>
+								</FontString>
+								<FontString name="$parentHPText" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="LEFT">
+									<FontHeight>
+										<AbsValue val="10"/>
+									</FontHeight>
+									<Color r="1" g="1" b="1"/>
+									<Size>
+										<AbsDimension x="50" y="11"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPLEFT" relativeTo="$parentName" relativePoint="BOTTOMLEFT">
+											<Offset>
+												<AbsDimension x="0" y="-5"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+								</FontString>
+								<FontString name="$parentMPText" outline="NORMAL" font="Fonts\FRIZQT__.TTF" justifyH="RIGHT">
+									<FontHeight>
+										<AbsValue val="10"/>
+									</FontHeight>
+									<Color r="1" g="1" b="1"/>
+									<Size>
+										<AbsDimension x="50" y="11"/>
+									</Size>
+									<Anchors>
+										<Anchor point="TOPRIGHT" relativeTo="$parentName" relativePoint="BOTTOMRIGHT">
+											<Offset>
+												<AbsDimension x="0" y="-5"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+						<Frames>
+							<Button name="$parentNamePlate" inherits="SecureUnitButtonTemplate" enableMouse="true" toplevel="true">
+								<Size>
+									<AbsDimension x="100" y="15"/>
+								</Size>
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="$parentName">
+										<Offset>
+											<AbsDimension x="0" y="0"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+							</Button>
+						</Frames>
+					</Frame>
+					<PlayerModel name="ArcPlayerModelFrame" frameStrata="BACKGROUND">
+						<Size>
+							<AbsDimension x="100" y="100"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOP" relativeTo="$parentName" relativePoint="BOTTOM">
+								<Offset>
+									<AbsDimension x="0" y="0"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								self:RegisterEvent("DISPLAY_SIZE_CHANGED");
+								self:RegisterEvent("UNIT_MODEL_CHANGED");
+							</OnLoad>
+							<OnEvent>
+								ArcHUD:RefreshTargetModel(self);
+							</OnEvent>
+						</Scripts>
+					</PlayerModel>
+				</Frames>
+			</Frame>
+		</Frames>
+	</Frame>
+</Ui>
