@@ -4,6 +4,7 @@ enable-nolib-creation: no
 
 ignore:
   - README.md
+  - logo.png
   - PORTING.md
   - ring-prototypes.txt
   - statrings.txt

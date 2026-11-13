@@ -27,3 +27,7 @@ Original ArcHUD by Saleel/Nenie of Argent Dawn, based on Tivoli's Nurfed HUD and
 ## Bugs
 
 Please open an issue with the BugSack output, or with the text from `/console scriptErrors 1`.
+
+## License
+
+GNU General Public License v2, the same licence as the original ArcHUD2 (https://www.curseforge.com/wow/addons/arc-hud2). See [LICENSE](LICENSE).
