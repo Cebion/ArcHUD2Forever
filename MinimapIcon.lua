@@ -8,7 +8,7 @@ local ICON = "Interface\\AddOns\\ArcHUD2\\Icons\\ArcHUDIcon"
 
 local function ShowTooltip(owner, anchor)
 	GameTooltip:SetOwner(owner, anchor or "ANCHOR_LEFT")
-	GameTooltip:SetText("ArcHUD", 1, 0.82, 0)
+	GameTooltip:SetText("ArcHud 2 Forever", 1, 0.82, 0)
 	GameTooltip:AddLine("Click: open options", 1, 1, 1)
 	if owner == ArcHUD.minimapButton then
 		GameTooltip:AddLine("Drag: move this icon", 1, 1, 1)

@@ -1,8 +1,8 @@
-# ArcHUD2 (WoW Forever)
+# ArcHud 2 Forever
 
 A port of **ArcHUD 2.0** (Saleel/Nenie, 2006) to **WoW Forever** (client 1.60.x, Interface 16001).
 
-ArcHUD draws a combat HUD around your character: player, target and pet health and power as rings, plus a cast bar, combo points, mirror timers (breath/fatigue) and druid mana. A small target frame shows text values and a 3D model.
+ArcHud 2 Forever draws a combat HUD around your character: player, target and pet health and power as rings, plus a cast bar, combo points, mirror timers (breath/fatigue) and druid mana. A small target frame shows text values and a 3D model.
 
 ## Install
 
